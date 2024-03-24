@@ -1,0 +1,12 @@
+LICENCE
+README.md
+setup.py
+tf_cluster_based_norm/SCBNorm.py
+tf_cluster_based_norm/SCBNormBase.py
+tf_cluster_based_norm/UCBNorm.py
+tf_cluster_based_norm/__init__.py
+tf_cluster_based_norm.egg-info/PKG-INFO
+tf_cluster_based_norm.egg-info/SOURCES.txt
+tf_cluster_based_norm.egg-info/dependency_links.txt
+tf_cluster_based_norm.egg-info/requires.txt
+tf_cluster_based_norm.egg-info/top_level.txt

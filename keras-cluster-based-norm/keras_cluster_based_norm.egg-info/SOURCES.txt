@@ -1,0 +1,12 @@
+LICENCE
+README.md
+setup.py
+keras_cluster_based_norm/SCBNorm.py
+keras_cluster_based_norm/SCBNormBase.py
+keras_cluster_based_norm/UCBNorm.py
+keras_cluster_based_norm/__init__.py
+keras_cluster_based_norm.egg-info/PKG-INFO
+keras_cluster_based_norm.egg-info/SOURCES.txt
+keras_cluster_based_norm.egg-info/dependency_links.txt
+keras_cluster_based_norm.egg-info/requires.txt
+keras_cluster_based_norm.egg-info/top_level.txt
