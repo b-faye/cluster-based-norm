@@ -1,3 +1,4 @@
+import keras
 from keras import layers, utils
 
 @utils.register_keras_serializable()
