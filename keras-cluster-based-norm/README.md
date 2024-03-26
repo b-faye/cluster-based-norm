@@ -25,6 +25,7 @@ pip install keras-cluster-based-norm
 
 ```python
 import numpy as np
+import keras
 from keras_cluster_based_norm import SCBNormBase
 
 # Create data
