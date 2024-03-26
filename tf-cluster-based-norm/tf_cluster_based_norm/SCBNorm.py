@@ -38,7 +38,7 @@ class SCBNorm(tf.keras.layers.Layer):
         )
         super(SCBNorm, self).build(input_shape)
         
-    def config(self):
+    def get_config(self):
         config = super().get_config().copy()
         config.update({
         	"num_clusters": self.num_clusters,
