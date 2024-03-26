@@ -94,6 +94,15 @@ class UCBNorm(Layer):
     def compute_output_shape(self, input_shape):
         return input_shape
 
+    def get_config(self):
+        config = {
+            'num_clusters': self.num_clusters,
+            'epsilon': self.epsilon,
+            'momentum': self.momentum
+        }
+        base_config = super(UCBNorm, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
     def call(self, inputs, training=None):
         """
         Apply the Unsupervised Cluster-Based Normalization to the input data.
