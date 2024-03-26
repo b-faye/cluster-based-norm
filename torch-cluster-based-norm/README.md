@@ -47,9 +47,11 @@ X = torch.tensor(data, dtype=torch.float32)
 labels = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4]  
 Y = torch.tensor(labels, dtype=torch.long)
 
-# Create cluster (3 clusters)
+
+# Establishing clusters (3 clusters): SCBNorm employs indices as input for normalizing, while SCBNormBase utilizes a one-hot representation of indices as input.
 cluster_indices = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0] 
-cluster = torch.tensor(np.eye(3)[cluster_indices], dtype=torch.float32)
+cluster_scb_norm = torch.tensor(cluster_indices)
+cluster_scb_norm_base = torch.tensor(np.eye(3)[cluster_indices], dtype=torch.float32)
 
 ```
 
@@ -86,7 +88,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 epochs = 10
 for epoch in range(epochs):
     optimizer.zero_grad()
-    output = model([X, cluster])
+    output = model([X, cluster_scb_norm_base])
     loss = criterion(output, Y)
     loss.backward()
     optimizer.step()
@@ -121,14 +123,12 @@ model = MyModel()
 optimizer = optim.Adam(model.parameters())
 criterion = nn.CrossEntropyLoss()
 
-# Use cluster indices as prior knowledge
-cluster = torch.tensor(cluster_indices)
 
 # Training loop
 num_epochs = 10
 for epoch in range(num_epochs):
     # Forward pass
-    outputs = model(X, cluster)
+    outputs = model(X, cluster_scb_norm)
     loss = criterion(outputs, Y)
 
     # Backward pass and optimization
