@@ -3,33 +3,26 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class SCBNormBase(nn.Module):
-    def __init__(self, epsilon=1e-3):
+    def __init__(self, num_clusters, input_dim, epsilon=1e-3):
         """
         Initialize the Supervised Cluster-Based Normalization Base layer a Tiny Version Supervised Cluster-Based Normalization.
 
         :param epsilon: A small positive value to prevent division by zero during normalization.
+        :param num_clusters: The number of clusters (prior knowledge)
+        :param input_dim: The dimension of input
         """
         super(SCBNormBase, self).__init__()
         self.epsilon = epsilon
-
-    def build(self, input_shape):
-        """
-        Build the layer by creating sub-layers for learning mean and standard deviation.
-
-        Parameters:
-        :param input_shape: The shape of the layer's input.
-
-        This method initializes the layers for learning mean and standard deviation, based on the input shape.
-        """
-        self.input_dim = input_shape[0][-1]
-        self.cluster_dim = input_shape[1][-1]
+        self.num_clusters = num_clusters
+        self.input_dim = input_dim
 
         # Layer for learning mean
-        self.mean_layer = nn.Linear(self.cluster_dim, self.input_dim)
+        self.mean_layer = nn.Linear(self.num_clusters, self.input_dim)
 
         # Layer for learning standard deviation
-        self.std_layer = nn.Linear(self.cluster_dim, self.input_dim)
+        self.std_layer = nn.Linear(self.num_clusters, self.input_dim)
 
+    
     def forward(self, inputs):
         """
         Apply the Tiny Supervised Cluster-Based Normalization to the input data.
