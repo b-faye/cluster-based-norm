@@ -73,8 +73,8 @@ normalized_X = SCBNormBase()((X_input, cluster_input))
 
 # Define the rest of your model architecture
 # For example:
-hidden_layer = layers.Dense(units=10, activation='relu')(normalized_X)
-output_layer = layers.Dense(units=10, activation='softmax')(hidden_layer)
+hidden_layer = keras.layers.Dense(units=10, activation='relu')(normalized_X)
+output_layer = keras.layers.Dense(units=10, activation='softmax')(hidden_layer)
 
 # Define the model
 model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
@@ -104,12 +104,12 @@ cluster_input = keras.Input(shape=cluster_shape[1:], dtype='int32')
 
 # Define the rest of your model architecture
 # For example:
-hidden_layer = layers.Dense(units=10, activation='relu')(X_input)
+hidden_layer = keras.layers.Dense(units=10, activation='relu')(X_input)
 
 # Apply normalization layer
 normalized_activation = SCBNorm(num_clusters=3)((hidden_layer, cluster_input))
 
-output_layer = layers.Dense(units=10, activation='softmax')(normalized_activation)
+output_layer = keras.layers.Dense(units=10, activation='softmax')(normalized_activation)
 
 # Define the model
 model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
