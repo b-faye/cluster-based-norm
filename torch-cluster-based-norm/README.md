@@ -62,7 +62,7 @@ SCBNormBase isa soft version of Supervised Cluster-Based Normalization. It also 
 from torch_cluster_based_norm import SCBNormBase
 
 # Apply normalization layer
-scb_layer = SCBNormBase()
+scb_layer = SCBNormBase(num_clusters=3, input_dim=5)
 
 # Define the rest of your model architecture
 # For example:
