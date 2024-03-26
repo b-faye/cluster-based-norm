@@ -47,9 +47,10 @@ X = data
 labels = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4]  
 Y = np.array(labels)
 
-# Create cluster (3 clusters)
+# Establishing clusters (3 clusters): SCBNorm employs indices as input for normalizing, while SCBNormBase utilizes a one-hot representation of indices as input.
 cluster_indices = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0] 
-cluster = keras.utils.to_categorical(cluster_indices, num_classes=3)
+cluster_scb_norm = K.constant(cluster_indices, shape=(10, 1), dtype="int32")
+cluster_scb_norm_base = keras.utils.to_categorical(cluster_indices, num_classes=3)
 
 ```
 
@@ -84,7 +85,7 @@ model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # Fit the model
-history = model.fit([X, cluster], Y, epochs=10)
+history = model.fit([X, cluster_scb_norm_base], Y, epochs=10)
 
 ```
 
@@ -118,11 +119,9 @@ model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
 # Compile the model (you can specify your desired optimizer, loss, and metrics)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-# Cluster 
-cluster = K.constant(cluster_indices, shape=(10, 1), dtype="int32")
 
 # Fit the model
-history = model.fit([X, cluster], Y, epochs=10)
+history = model.fit([X, cluster_scb_norm], Y, epochs=10)
 
 ```
 
