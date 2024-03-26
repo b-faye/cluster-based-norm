@@ -17,7 +17,7 @@ Cluster-Based Normalization (CB-Norm) is a novel normalization technique introdu
 ## References
 
 
-- **All versions:** *Cluster-Based Normalization Layer for Neural Networks*, FAYE et al., [ArXiv Link](link_to_version_1)
+- **All versions:** *Cluster-Based Normalization Layer for Neural Networks*, FAYE et al., [ArXiv Link](https://arxiv.org/abs/2403.16798)
 
 
 ## Usage
