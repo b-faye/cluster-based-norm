@@ -37,7 +37,7 @@ Cluster-Based Normalization (CB-Norm) is a novel normalization technique introdu
     ```python
     from tf_cluster_based_norm import SCBNorm, SCBNormBase, UCBNorm
     scb_norm = SCBNorm(num_clusters=10)
-    scb_norm_base = SCBNorm()
+    scb_norm_base = SCBNormBase()
     ucb_norm = UCBNorm(num_clusters=10)
     ```
 
@@ -55,7 +55,7 @@ Cluster-Based Normalization (CB-Norm) is a novel normalization technique introdu
     ```python
     from keras_cluster_based_norm import SCBNorm, SCBNormBase, UCBNorm
     scb_norm = SCBNorm(num_clusters=10)
-    scb_norm_base = SCBNorm()
+    scb_norm_base = SCBNormBase()
     ucb_norm = UCBNorm(num_clusters=10)
     ```
 
@@ -74,6 +74,6 @@ Cluster-Based Normalization (CB-Norm) is a novel normalization technique introdu
     ```python
     from torch_cluster_based_norm import SCBNorm, SCBNormBase, UCBNorm
     scb_norm = SCBNorm(num_clusters=10, input_dim=5)
-    scb_norm_base = SCBNorm()
+    scb_norm_base = SCBNormBase(num_clusters=10, input_dim=5)
     ucb_norm = UCBNorm(num_clusters=10, input_dim=5)
     ```
