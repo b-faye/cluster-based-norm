@@ -27,6 +27,7 @@ pip install keras-cluster-based-norm
 import numpy as np
 import keras
 from keras_cluster_based_norm import SCBNormBase
+from keras import backend as K
 
 # Create data
 data = np.array([[1, 2, 3, 4, 5],
@@ -116,6 +117,9 @@ model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
 
 # Compile the model (you can specify your desired optimizer, loss, and metrics)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# Cluster 
+cluster = K.constant(cluster_indices, shape=(10, 1), dtype="int32")
 
 # Fit the model
 history = model.fit([X, cluster], Y, epochs=10)
