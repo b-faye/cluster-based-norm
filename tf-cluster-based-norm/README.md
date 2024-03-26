@@ -40,9 +40,11 @@ data = [[1, 2, 3, 4, 5],
         [46, 47, 48, 49, 50]]
 
 X = tf.constant(data)
+
+# Establishing clusters (3 clusters): SCBNorm employs indices as input for normalizing, while SCBNormBase utilizes a one-hot representation of indices as input.
 cluster_indices = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0] 
-# Cluster must be represented using one-hot encoding 
-cluster = tf.one_hot(cluster_indices, depth=3)
+cluster_scb_norm = tf.constant(cluster_indices, shape=(10,1), dtype=tf.int32)
+cluster_scb_norm_base = tf.one_hot(cluster_indices, depth=3)
 
 ```
 
@@ -78,7 +80,7 @@ model = tf.keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # Fit the model
-history = model.fit([X, cluster], Y, epochs=10)
+history = model.fit([X, cluster_scb_norm_base], Y, epochs=10)
 
 ```
 
@@ -112,11 +114,9 @@ model = tf.keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
 # Compile the model (you can specify your desired optimizer, loss, and metrics)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-# cluster
-cluster = tf.constant(cluster_indices, shape=(10,1), dtype=tf.int32)
 
 # Fit the model
-history = model.fit([X, cluster], Y, epochs=10)
+history = model.fit([X, cluster_scb_norm], Y, epochs=10)
 
 ```
 
