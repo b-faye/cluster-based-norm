@@ -34,7 +34,7 @@ cluster = torch.tensor(np.eye(3)[cluster_indices], dtype=torch.float32)
 
 
 # Apply normalization layer
-scb_layer = SCBNormBase()
+scb_layer = SCBNormBase(num_clusters=3, input_dim=5)
 
 # Define the rest of your model architecture
 # For example:
