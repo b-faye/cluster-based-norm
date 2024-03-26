@@ -82,6 +82,9 @@ model = tf.keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
 # Compile the model (you can specify your desired optimizer, loss, and metrics)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
+# cluster
+cluster = tf.constant(cluster_indices, shape=(10,1), dtype=tf.int32)
+
 # Fit the model
 history = model.fit([X, cluster], Y, epochs=10)
 
