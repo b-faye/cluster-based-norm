@@ -88,7 +88,7 @@ class UCBNorm(tf.keras.layers.Layer):
         normalized_values = initial_values / tf.reduce_sum(initial_values, axis=0)
         return normalized_values
 
-    def config(self):
+    def get_config(self):
         """
         Get the configuration of the layer.
 
