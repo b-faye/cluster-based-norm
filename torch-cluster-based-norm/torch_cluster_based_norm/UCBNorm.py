@@ -72,27 +72,27 @@ class UCBNorm(nn.Module):
                 p_x_given_i += posterior_proba
 
             tau_k = p_x_given_k / (p_x_given_i + self.epsilon)
-
-            sum_tau_k = torch.sum(tau_k, dim=tuple(range(x.dim()))[:-1])
-            hat_tau_k = tau_k / (sum_tau_k + self.epsilon)
-
-            prod = hat_tau_k * x
-            expectation = torch.mean(prod, dim=tuple(range(x.dim()))[1:-1])
-            expectation = expectation.unsqueeze(-1).expand_as(x)
-
-            v_i_k = x - expectation
-
-            prod_bis = hat_tau_k * (prod * prod)
-            variance = torch.mean(prod_bis, dim=tuple(range(x.dim()))[1:-1])
-            variance = variance.unsqueeze(-1).expand_as(v_i_k)
-
-            hat_x_i_k = v_i_k / torch.sqrt(variance + self.epsilon)
-
-            hat_x_i = (tau_k / torch.sqrt(prior_k + self.epsilon)) * hat_x_i_k
-
-            normalized_x += hat_x_i
-
+            
             if self.training:
+                sum_tau_k = torch.sum(tau_k, dim=tuple(range(x.dim()))[:-1])
+                hat_tau_k = tau_k / (sum_tau_k + self.epsilon)
+
+                prod = hat_tau_k * x
+                expectation = torch.mean(prod, dim=tuple(range(x.dim()))[1:-1])
+                expectation = expectation.unsqueeze(-1).expand_as(x)
+
+                v_i_k = x - expectation
+
+                prod_bis = hat_tau_k * (prod * prod)
+                variance = torch.mean(prod_bis, dim=tuple(range(x.dim()))[1:-1])
+                variance = variance.unsqueeze(-1).expand_as(v_i_k)
+
+                hat_x_i_k = v_i_k / torch.sqrt(variance + self.epsilon)
+
+                hat_x_i = (tau_k / torch.sqrt(prior_k + self.epsilon)) * hat_x_i_k
+
+                normalized_x += hat_x_i
+
                 updated_mean = torch.mean(hat_x_i, dim=tuple(range(x.dim()))[:-1])
                 updated_var = torch.var(hat_x_i, dim=tuple(range(x.dim()))[:-1])
                 updated_prior = torch.mean(tau_k)
@@ -100,6 +100,11 @@ class UCBNorm(nn.Module):
                 self.mean[k, :].data = self.momentum * self.mean[k, :] + (1.0 - self.momentum) * updated_mean
                 self.variance[k, :].data = self.momentum * self.variance[k, :] + (1.0 - self.momentum) * updated_var
                 self.prior[k, 0].data = self.momentum * self.prior[k, 0] + (1.0 - self.momentum) * updated_prior
+
+            else:
+                hat_x_i_k = (x - mean_k) / (torch.sqrt(var_k + self.epsilon))
+                hat_x_i = (tau_k / torch.sqrt(prior_k + self.epsilon)) * hat_x_i_k
+                normalized_x += hat_x_i
 
         return normalized_x
 
