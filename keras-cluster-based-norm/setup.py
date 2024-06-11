@@ -5,7 +5,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="keras_cluster_based_norm",
-    version="1.0",
+    version="1.0.2",
     author="Bilal FAYE",
     author_email="faye@lipn.univ-paris13.fr",
     url="https://github.com/b-faye/cluster-based-norm",

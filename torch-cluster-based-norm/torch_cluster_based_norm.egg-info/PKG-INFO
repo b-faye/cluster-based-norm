@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: torch-cluster-based-norm
-Version: 1.0
+Version: 1.0.2
 Summary: Cluster-Based Normalization provides versatile normalization layers for deep neural networks, including Supervised, Tiny Supervised, and Unsupervised versions. Enhance model generalization and robustness by efficiently integrating prior knowledge.
 Home-page: https://github.com/b-faye/cluster-based-norm
 Author: Bilal FAYE
@@ -27,7 +27,7 @@ The Supervised versions (SCB-Norm and SCB-Norm-Base) are designed for scenarios 
 ## References
 
 
-- **All versions:** *Cluster-Based Normalization Layer for Neural Networks*, FAYE et al., [ArXiv Link](link_to_version_1)
+- **All versions:** *Cluster-Based Normalization Layer for Neural Networks*, FAYE et al., [ArXiv Link](https://arxiv.org/abs/2403.16798)
 
 
 ## Installation
@@ -66,9 +66,11 @@ X = torch.tensor(data, dtype=torch.float32)
 labels = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4]  
 Y = torch.tensor(labels, dtype=torch.long)
 
-# Create cluster (3 clusters)
+
+# Establishing clusters (3 clusters): SCBNorm employs indices as input for normalizing, while SCBNormBase utilizes a one-hot representation of indices as input.
 cluster_indices = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0] 
-cluster = torch.tensor(np.eye(3)[cluster_indices], dtype=torch.float32)
+cluster_scb_norm = torch.tensor(cluster_indices)
+cluster_scb_norm_base = torch.tensor(np.eye(3)[cluster_indices], dtype=torch.float32)
 
 ```
 
@@ -81,7 +83,7 @@ SCBNormBase isa soft version of Supervised Cluster-Based Normalization. It also 
 from torch_cluster_based_norm import SCBNormBase
 
 # Apply normalization layer
-scb_layer = SCBNormBase()
+scb_layer = SCBNormBase(num_clusters=3, input_dim=5)
 
 # Define the rest of your model architecture
 # For example:
@@ -105,7 +107,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 epochs = 10
 for epoch in range(epochs):
     optimizer.zero_grad()
-    output = model([X, cluster])
+    output = model([X, cluster_scb_norm_base])
     loss = criterion(output, Y)
     loss.backward()
     optimizer.step()
@@ -140,14 +142,12 @@ model = MyModel()
 optimizer = optim.Adam(model.parameters())
 criterion = nn.CrossEntropyLoss()
 
-# Use cluster indices as prior knowledge
-cluster = torch.tensor(cluster_indices)
 
 # Training loop
 num_epochs = 10
 for epoch in range(num_epochs):
     # Forward pass
-    outputs = model(X, cluster)
+    outputs = model(X, cluster_scb_norm)
     loss = criterion(outputs, Y)
 
     # Backward pass and optimization

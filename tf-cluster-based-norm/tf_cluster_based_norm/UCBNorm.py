@@ -1,3 +1,4 @@
+# C'est la bonne version j'ai modifié aussi le github
 import tensorflow as tf
 
 class UCBNorm(tf.keras.layers.Layer):
@@ -133,3 +134,4 @@ class UCBNorm(tf.keras.layers.Layer):
                 normalized_x += hat_x_i
 
         return normalized_x
+

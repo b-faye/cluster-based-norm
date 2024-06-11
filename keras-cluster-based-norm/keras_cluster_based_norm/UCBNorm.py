@@ -1,3 +1,4 @@
+# C'est la bonne version j'ai aussi modifié sur le git
 from keras import backend as K
 from keras.layers import Layer, Input
 import numpy as np
@@ -136,3 +137,4 @@ class UCBNorm(Layer):
                 normalized_x += hat_x_i
                 
         return normalized_x
+

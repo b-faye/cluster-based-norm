@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: keras-cluster-based-norm
-Version: 1.0
+Version: 1.0.2
 Summary: Cluster-Based Normalization provides versatile normalization layers for deep neural networks, including Supervised, Tiny Supervised, and Unsupervised versions. Enhance model generalization and robustness by efficiently integrating prior knowledge.
 Home-page: https://github.com/b-faye/cluster-based-norm
 Author: Bilal FAYE
@@ -27,7 +27,7 @@ The Supervised versions (SCB-Norm and SCB-Norm-Base) are designed for scenarios 
 ## References
 
 
-- **All versions:** *Cluster-Based Normalization Layer for Neural Networks*, FAYE et al., [ArXiv Link](link_to_version_1)
+- **All versions:** *Cluster-Based Normalization Layer for Neural Networks*, FAYE et al., [ArXiv Link](https://arxiv.org/abs/2403.16798)
 
 
 ## Installation
@@ -44,7 +44,9 @@ pip install keras-cluster-based-norm
 
 ```python
 import numpy as np
+import keras
 from keras_cluster_based_norm import SCBNormBase
+from keras import backend as K
 
 # Create data
 data = np.array([[1, 2, 3, 4, 5],
@@ -64,9 +66,10 @@ X = data
 labels = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4]  
 Y = np.array(labels)
 
-# Create cluster (3 clusters)
+# Establishing clusters (3 clusters): SCBNorm employs indices as input for normalizing, while SCBNormBase utilizes a one-hot representation of indices as input.
 cluster_indices = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0] 
-cluster = keras.utils.to_categorical(cluster_indices, num_classes=3)
+cluster_scb_norm = K.constant(cluster_indices, shape=(10, 1), dtype="int32")
+cluster_scb_norm_base = keras.utils.to_categorical(cluster_indices, num_classes=3)
 
 ```
 
@@ -91,8 +94,8 @@ normalized_X = SCBNormBase()((X_input, cluster_input))
 
 # Define the rest of your model architecture
 # For example:
-hidden_layer = layers.Dense(units=10, activation='relu')(normalized_X)
-output_layer = layers.Dense(units=10, activation='softmax')(hidden_layer)
+hidden_layer = keras.layers.Dense(units=10, activation='relu')(normalized_X)
+output_layer = keras.layers.Dense(units=10, activation='softmax')(hidden_layer)
 
 # Define the model
 model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
@@ -101,7 +104,7 @@ model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 # Fit the model
-history = model.fit([X, cluster], Y, epochs=10)
+history = model.fit([X, cluster_scb_norm_base], Y, epochs=10)
 
 ```
 
@@ -122,12 +125,12 @@ cluster_input = keras.Input(shape=cluster_shape[1:], dtype='int32')
 
 # Define the rest of your model architecture
 # For example:
-hidden_layer = layers.Dense(units=10, activation='relu')(X_input)
+hidden_layer = keras.layers.Dense(units=10, activation='relu')(X_input)
 
 # Apply normalization layer
 normalized_activation = SCBNorm(num_clusters=3)((hidden_layer, cluster_input))
 
-output_layer = layers.Dense(units=10, activation='softmax')(normalized_activation)
+output_layer = keras.layers.Dense(units=10, activation='softmax')(normalized_activation)
 
 # Define the model
 model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
@@ -135,8 +138,9 @@ model = keras.Model(inputs=[X_input, cluster_input], outputs=output_layer)
 # Compile the model (you can specify your desired optimizer, loss, and metrics)
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
+
 # Fit the model
-history = model.fit([X, cluster], Y, epochs=10)
+history = model.fit([X, cluster_scb_norm], Y, epochs=10)
 
 ```
 

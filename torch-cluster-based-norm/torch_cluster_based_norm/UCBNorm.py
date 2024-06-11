@@ -1,3 +1,4 @@
+# C'est la bonne version j'ai aussi modifié sur git
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
