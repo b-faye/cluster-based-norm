@@ -94,7 +94,7 @@ class UCBNorm(tf.keras.layers.Layer):
 
             tau_k = p_x_given_k / (p_x_given_i + self.epsilon)
 
-            if training:
+            if training == 1:
                 sum_tau_k = tf.reduce_sum(tau_k, axis=list(range(x.ndim))[:-1])
                 hat_tau_k = tau_k / (sum_tau_k + self.epsilon)
 
