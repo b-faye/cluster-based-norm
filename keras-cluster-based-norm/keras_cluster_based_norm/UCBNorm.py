@@ -97,7 +97,7 @@ class UCBNorm(Layer):
 
             tau_k = p_x_given_k / (p_x_given_i + self.epsilon)
             
-            if training:
+            if training == 1:
                 sum_tau_k = K.sum(tau_k, axis=list(range(K.ndim(x)))[:-1])
                 hat_tau_k = tau_k / (sum_tau_k + self.epsilon)
     
